@@ -1,4 +1,5 @@
-![Thumbnail video tutorial](https://github.com/wass08/r3f-portfolio-final/assets/6551176/10e190aa-de14-4f34-a6e7-fca23b73bb15)
 
-[Video tutorial](https://youtu.be/LooODvrYXzE)
+![Thumbnail Video Tutorial](https://github.com/wass08/r3f-portfolio-responsive/assets/6551176/bf148f55-e6ba-46c4-b53d-9f93e1d1f99f)
+
+[Video tutorial](https://youtube.com/@WawaSensei)
 
