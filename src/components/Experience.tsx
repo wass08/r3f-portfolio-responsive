@@ -4,7 +4,7 @@ import {
   MeshWobbleMaterial,
   useScroll,
 } from "@react-three/drei";
-import { useFrame, useThree } from "@react-three/fiber";
+import { GroupProps, useFrame, useThree } from "@react-three/fiber";
 import { animate, useMotionValue } from "framer-motion";
 import { motion } from "framer-motion-3d";
 import { useEffect, useRef, useState } from "react";
@@ -13,9 +13,9 @@ import { Avatar } from "./Avatar";
 import { Background } from "./Background";
 import { Office } from "./Office";
 import { Projects } from "./Projects";
+import { Group, Vector3 } from "three";
 
-export const Experience = (props) => {
-  const { menuOpened } = props;
+export const Experience = ({ menuOpened }: { menuOpened: boolean }) => {
   const { viewport } = useThree();
   const data = useScroll();
 
@@ -25,19 +25,15 @@ export const Experience = (props) => {
 
   const [section, setSection] = useState(0);
 
-  const cameraPositionX = useMotionValue();
-  const cameraLookAtX = useMotionValue();
+  const cameraPositionX = useMotionValue(0);
+  const cameraLookAtX = useMotionValue(0);
 
   useEffect(() => {
-    animate(cameraPositionX, menuOpened ? -5 : 0, {
-      ...framerMotionConfig,
-    });
-    animate(cameraLookAtX, menuOpened ? 5 : 0, {
-      ...framerMotionConfig,
-    });
+    animate(cameraPositionX, menuOpened ? -5 : 0, framerMotionConfig);
+    animate(cameraLookAtX, menuOpened ? 5 : 0, framerMotionConfig);
   }, [menuOpened]);
 
-  const characterContainerAboutRef = useRef();
+  const characterContainerAboutRef = useRef<Group>(null);
 
   const [characterAnimation, setCharacterAnimation] = useState("Typing");
   useEffect(() => {
@@ -47,10 +43,12 @@ export const Experience = (props) => {
     }, 600);
   }, [section]);
 
-  const characterGroup = useRef();
+  useEffect(() => setCharacterAnimation("Typing"), []);
+
+  const characterGroup = useRef<GroupProps>(null);
 
   useFrame((state) => {
-    let curSection = Math.floor(data.scroll.current * data.pages);
+    let curSection = Math.floor(data.offset * data.pages);
 
     if (curSection > 3) {
       curSection = 3;
@@ -64,9 +62,9 @@ export const Experience = (props) => {
     state.camera.lookAt(cameraLookAtX.get(), 0, 0);
 
     // const position = new THREE.Vector3();
-    if (section === 0) {
-      characterContainerAboutRef.current.getWorldPosition(
-        characterGroup.current.position
+    if (section === 0 && characterGroup.current !== null) {
+      characterContainerAboutRef.current?.getWorldPosition(
+        characterGroup.current.position as unknown as Vector3
       );
     }
     // console.log([position.x, position.y, position.z]);
@@ -155,7 +153,7 @@ export const Experience = (props) => {
           name="CharacterSpot"
           position={[0.07, 0.16, -0.57]}
           rotation={[-Math.PI, 0.42, -Math.PI]}
-        ></group>
+        />
       </motion.group>
 
       {/* SKILLS */}
@@ -196,7 +194,7 @@ export const Experience = (props) => {
               transparent
               distort={1}
               speed={5}
-              color="yellow"
+              color={"yellow"}
             />
           </mesh>
         </Float>

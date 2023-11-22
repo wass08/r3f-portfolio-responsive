@@ -1,10 +1,9 @@
 import { useScroll } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { gsap } from "gsap";
-import { useEffect, useRef } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 
-export const ScrollManager = (props) => {
-  const { section, onSectionChange } = props;
+export const ScrollManager = ({ section, onSectionChange }: { section: number, onSectionChange: Dispatch<SetStateAction<number>> }) => {
 
   const data = useScroll();
   const lastScroll = useRef(0);
@@ -28,21 +27,21 @@ export const ScrollManager = (props) => {
 
   useFrame(() => {
     if (isAnimating.current) {
-      lastScroll.current = data.scroll.current;
+      lastScroll.current = data.offset;
       return;
     }
 
-    const curSection = Math.floor(data.scroll.current * data.pages);
-    if (data.scroll.current > lastScroll.current && curSection === 0) {
+    const curSection = Math.floor(data.offset* data.pages);
+    if (data.offset > lastScroll.current && curSection === 0) {
       onSectionChange(1);
     }
     if (
-      data.scroll.current < lastScroll.current &&
-      data.scroll.current < 1 / (data.pages - 1)
+      data.offset < lastScroll.current &&
+      data.offset < 1 / (data.pages - 1)
     ) {
       onSectionChange(0);
     }
-    lastScroll.current = data.scroll.current;
+    lastScroll.current = data.offset;
   });
 
   return null;

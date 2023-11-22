@@ -6,18 +6,106 @@ import { useGLTF, useTexture, useVideoTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { animate, useMotionValue } from "framer-motion";
 import { motion } from "framer-motion-3d";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 import * as THREE from "three";
+import { GLTF } from 'three-stdlib'
 
-export function Office(props) {
+type GLTFResult = GLTF & {
+  nodes: {
+    Plane001_Plane002_BlackWood001: THREE.Mesh
+    Plane001_Plane002_BlackWood001_1: THREE.Mesh
+    Plane001_Plane002_BlackWood001_2: THREE.Mesh
+    Plane001_Plane002_BlackWood001_3: THREE.Mesh
+    Plane001_Plane002_BlackWood001_4: THREE.Mesh
+    SM_ShelfSM_Shelf1_1: THREE.Mesh
+    SM_ShelfSM_Shelf1_1_1: THREE.Mesh
+    ['Node-Mesh001']: THREE.Mesh
+    ['Node-Mesh001_1']: THREE.Mesh
+    ['Node-Mesh001_2']: THREE.Mesh
+    WawaRug: THREE.Mesh
+    mesh434900071: THREE.Mesh
+    mesh434900071_1: THREE.Mesh
+    mesh434900071_2: THREE.Mesh
+    mesh434900071_3: THREE.Mesh
+    mesh434900071_4: THREE.Mesh
+    mesh434900071_5: THREE.Mesh
+    mesh425587018: THREE.Mesh
+    mesh425587018_1: THREE.Mesh
+    mesh425587018_2: THREE.Mesh
+    mesh425587018_3: THREE.Mesh
+    iMac_1: THREE.Mesh
+    iMac_1_1: THREE.Mesh
+    iMac_1_2: THREE.Mesh
+    Comp_Mouse: THREE.Mesh
+    mesh24448074: THREE.Mesh
+    mesh24448074_1: THREE.Mesh
+    mesh24448074_2: THREE.Mesh
+    Houseplant_7_1: THREE.Mesh
+    Houseplant_7_2: THREE.Mesh
+    Houseplant_7_3: THREE.Mesh
+    ['palm_tree_01-Mesh']: THREE.Mesh
+    ['palm_tree_01-Mesh_1']: THREE.Mesh
+    ['palm_tree_01-Mesh_2']: THREE.Mesh
+    ['Node-Mesh']: THREE.Mesh
+    ['Node-Mesh_1']: THREE.Mesh
+    Screen: THREE.Mesh
+    Plane001: THREE.Mesh
+    Plane001_1: THREE.Mesh
+    Plane001_2: THREE.Mesh
+    Plane001_3: THREE.Mesh
+  }
+  materials: {
+    ['BlackWood.001']: THREE.MeshStandardMaterial
+    ['BlackCoatSteel.001']: THREE.MeshStandardMaterial
+    ['GrayPlastic.001']: THREE.MeshStandardMaterial
+    ['WhiteSteelScrew.001']: THREE.MeshStandardMaterial
+    ['BlackPlastic.001']: THREE.MeshStandardMaterial
+    lambert2SG: THREE.MeshStandardMaterial
+    ['795548.001']: THREE.MeshStandardMaterial
+    lambert4SG: THREE.MeshStandardMaterial
+    ['lambert2SG.001']: THREE.MeshStandardMaterial
+    ['lambert3SG.002']: THREE.MeshBasicMaterial
+    Rug: THREE.MeshStandardMaterial
+    mat14: THREE.MeshStandardMaterial
+    mat13: THREE.MeshStandardMaterial
+    ['mat12.001']: THREE.MeshStandardMaterial
+    ['mat21.003']: THREE.MeshStandardMaterial
+    ['mat23.001']: THREE.MeshStandardMaterial
+    mat11: THREE.MeshStandardMaterial
+    ['mat21.004']: THREE.MeshStandardMaterial
+    ['mat22.001']: THREE.MeshStandardMaterial
+    ['mat9.002']: THREE.MeshStandardMaterial
+    ['mat16.001']: THREE.MeshStandardMaterial
+    Screen: THREE.MeshStandardMaterial
+    ScreenBlack: THREE.MeshStandardMaterial
+    iMacBody: THREE.MeshStandardMaterial
+    ['lambert3SG.003']: THREE.MeshStandardMaterial
+    ['mat9.003']: THREE.MeshStandardMaterial
+    ['mat20.001']: THREE.MeshStandardMaterial
+    ['mat21.005']: THREE.MeshStandardMaterial
+    ['Black.001']: THREE.MeshStandardMaterial
+    ['Brown.001']: THREE.MeshStandardMaterial
+    ['Plant_Green.001']: THREE.MeshStandardMaterial
+    ['8BC34A.001']: THREE.MeshStandardMaterial
+    ['DD9944.001']: THREE.MeshStandardMaterial
+    Office_Cha: THREE.MeshStandardMaterial
+    Office_Cha_1: THREE.MeshStandardMaterial
+    Floor: THREE.MeshStandardMaterial
+    White: THREE.MeshStandardMaterial
+    Wall: THREE.MeshStandardMaterial
+    Glass: THREE.MeshPhysicalMaterial
+  }
+}
+
+export function Office(props: { section: number }) {
   const { section } = props;
-  const { nodes, materials } = useGLTF("models/scene.gltf");
+  const { nodes } = useGLTF("models/scene.gltf") as GLTFResult;
   const texture = useTexture("textures/baked.jpg");
   const textureVSCode = useVideoTexture("textures/vscode.mp4");
 
   texture.flipY = false;
-  texture.encoding = THREE.sRGBEncoding;
+  texture.colorSpace = THREE.SRGBColorSpace;
 
   const textureMaterial = new THREE.MeshStandardMaterial({
     map: texture,
