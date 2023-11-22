@@ -43,6 +43,8 @@ export const Experience = ({ menuOpened }: { menuOpened: boolean }) => {
     }, 600);
   }, [section]);
 
+  useEffect(() => setCharacterAnimation("Typing"), []);
+
   const characterGroup = useRef<GroupProps>(null);
 
   useFrame((state) => {
