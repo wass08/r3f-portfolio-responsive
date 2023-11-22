@@ -2,9 +2,9 @@ import { ValidationError, useForm } from "@formspree/react";
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
 import { currentProjectAtom, projects } from "./Projects";
+import React, { Dispatch, SetStateAction } from "react";
 
-const Section = (props) => {
-  const { children, mobileTop } = props;
+const Section = ({ children, mobileTop }: { children: React.ReactNode, mobileTop: boolean }) => {
 
   return (
     <motion.section
@@ -31,8 +31,7 @@ const Section = (props) => {
   );
 };
 
-export const Interface = (props) => {
-  const { setSection } = props;
+export const Interface = ({ setSection }: { setSection: Dispatch<SetStateAction<number>> }) => {
   return (
     <div className="flex flex-col items-center w-screen">
       <AboutSection setSection={setSection} />
@@ -43,17 +42,16 @@ export const Interface = (props) => {
   );
 };
 
-const AboutSection = (props) => {
-  const { setSection } = props;
+const AboutSection = ({ setSection }: { setSection: Dispatch<SetStateAction<number>> }) => {
   return (
     <Section mobileTop>
-      <h1 className="text-4xl md:text-6xl font-extrabold leading-snug mt-8 md:mt-0">
+      <h1 className="mt-8 text-4xl font-extrabold leading-snug md:text-6xl md:mt-0">
         Hi, I'm
         <br />
-        <span className="bg-white px-1 italic">Wawa Sensei</span>
+        <span className="px-1 italic bg-white">Wawa Sensei</span>
       </h1>
       <motion.p
-        className="text-lg text-gray-600 mt-4"
+        className="mt-4 text-lg text-gray-600"
         initial={{
           opacity: 0,
           y: 25,
@@ -133,14 +131,14 @@ const languages = [
 
 const SkillsSection = () => {
   return (
-    <Section>
+    <Section mobileTop>
       <motion.div className="w-full" whileInView={"visible"}>
-        <h2 className="text-3xl md:text-5xl font-bold text-white">Skills</h2>
+        <h2 className="text-3xl font-bold text-white md:text-5xl">Skills</h2>
         <div className="mt-8 space-y-4">
           {skills.map((skill, index) => (
             <div className="w-full md:w-64" key={index}>
               <motion.h3
-                className="text-lg md:text-xl font-bold text-gray-100"
+                className="text-lg font-bold text-gray-100 md:text-xl"
                 initial={{
                   opacity: 0,
                 }}
@@ -156,7 +154,7 @@ const SkillsSection = () => {
               >
                 {skill.title}
               </motion.h3>
-              <div className="h-2 w-full bg-gray-200 rounded-full mt-2">
+              <div className="w-full h-2 mt-2 bg-gray-200 rounded-full">
                 <motion.div
                   className="h-full bg-indigo-500 rounded-full "
                   style={{ width: `${skill.level}%` }}
@@ -179,14 +177,14 @@ const SkillsSection = () => {
           ))}
         </div>
         <div>
-          <h2 className="text-3xl md:text-5xl font-bold mt-10 text-white">
+          <h2 className="mt-10 text-3xl font-bold text-white md:text-5xl">
             Languages
           </h2>
           <div className="mt-8 space-y-4">
             {languages.map((lng, index) => (
               <div className="w-full md:w-64" key={index}>
                 <motion.h3
-                  className="text-lg md:text-xl font-bold text-gray-100"
+                  className="text-lg font-bold text-gray-100 md:text-xl"
                   initial={{
                     opacity: 0,
                   }}
@@ -202,7 +200,7 @@ const SkillsSection = () => {
                 >
                   {lng.title}
                 </motion.h3>
-                <div className="h-2 w-full bg-gray-200 rounded-full mt-2">
+                <div className="w-full h-2 mt-2 bg-gray-200 rounded-full">
                   <motion.div
                     className="h-full bg-indigo-500 rounded-full "
                     style={{ width: `${lng.level}%` }}
@@ -242,17 +240,17 @@ const ProjectsSection = () => {
   };
 
   return (
-    <Section>
-      <div className="flex w-full h-full gap-8 items-center justify-center">
+    <Section mobileTop>
+      <div className="flex items-center justify-center w-full h-full gap-8">
         <button
-          className="hover:text-indigo-600 transition-colors"
+          className="transition-colors hover:text-indigo-600"
           onClick={previousProject}
         >
           ← Previous
         </button>
-        <h2 className="text-3xl md:text-5xl font-bold">Projects</h2>
+        <h2 className="text-3xl font-bold md:text-5xl">Projects</h2>
         <button
-          className="hover:text-indigo-600 transition-colors"
+          className="transition-colors hover:text-indigo-600"
           onClick={nextProject}
         >
           Next →
@@ -265,25 +263,25 @@ const ProjectsSection = () => {
 const ContactSection = () => {
   const [state, handleSubmit] = useForm("mayzgjbd");
   return (
-    <Section>
-      <h2 className="text-3xl md:text-5xl font-bold">Contact me</h2>
-      <div className="mt-8 p-8 rounded-md bg-white bg-opacity-50 w-96 max-w-full">
+    <Section mobileTop>
+      <h2 className="text-3xl font-bold md:text-5xl">Contact me</h2>
+      <div className="max-w-full p-8 mt-8 bg-white bg-opacity-50 rounded-md w-96">
         {state.succeeded ? (
-          <p className="text-gray-900 text-center">Thanks for your message !</p>
+          <p className="text-center text-gray-900">Thanks for your message !</p>
         ) : (
           <form onSubmit={handleSubmit}>
-            <label for="name" className="font-medium text-gray-900 block mb-1">
+            <label htmlFor="name" className="block mb-1 font-medium text-gray-900">
               Name
             </label>
             <input
               type="text"
               name="name"
               id="name"
-              className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
+              className="block w-full p-3 text-gray-900 border-0 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
             />
             <label
-              for="email"
-              className="font-medium text-gray-900 block mb-1 mt-8"
+              htmlFor="email"
+              className="block mt-8 mb-1 font-medium text-gray-900"
             >
               Email
             </label>
@@ -291,7 +289,7 @@ const ContactSection = () => {
               type="email"
               name="email"
               id="email"
-              className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
+              className="block w-full p-3 text-gray-900 border-0 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
             />
             <ValidationError
               className="mt-1 text-red-500"
@@ -300,15 +298,15 @@ const ContactSection = () => {
               errors={state.errors}
             />
             <label
-              for="email"
-              className="font-medium text-gray-900 block mb-1 mt-8"
+              htmlFor="email"
+              className="block mt-8 mb-1 font-medium text-gray-900"
             >
               Message
             </label>
             <textarea
               name="message"
               id="message"
-              className="h-32 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 p-3"
+              className="block w-full h-32 p-3 text-gray-900 border-0 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
             />
             <ValidationError
               className="mt-1 text-red-500"
@@ -316,7 +314,7 @@ const ContactSection = () => {
             />
             <button
               disabled={state.submitting}
-              className="bg-indigo-600 text-white py-4 px-8 rounded-lg font-bold text-lg mt-16 "
+              className="px-8 py-4 mt-16 text-lg font-bold text-white bg-indigo-600 rounded-lg "
             >
               Submit
             </button>

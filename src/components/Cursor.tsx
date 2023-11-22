@@ -8,7 +8,7 @@ let outlineX = 0;
 let outlineY = 0;
 
 export const Cursor = () => {
-  const cursorOutline = useRef();
+  const cursorOutline = useRef<HTMLDivElement>(null);
   const [hoverButton, setHoverButton] = useState(false);
 
   const animate = () => {
@@ -18,46 +18,41 @@ export const Cursor = () => {
     outlineX = outlineX + distX * CURSOR_SPEED;
     outlineY = outlineY + distY * CURSOR_SPEED;
 
+    if (cursorOutline.current === null) return;
     cursorOutline.current.style.left = `${outlineX}px`;
     cursorOutline.current.style.top = `${outlineY}px`;
     requestAnimationFrame(animate);
   };
 
   useEffect(() => {
-    const mouseEventsListener = document.addEventListener(
-      "mousemove",
-      function (event) {
-        mouseX = event.pageX;
-        mouseY = event.pageY;
-      }
-    );
+    function getMousePosition(event: MouseEvent) {
+      mouseX = event.pageX;
+      mouseY = event.pageY;
+    }
+    document.addEventListener("mousemove", getMousePosition);
     const animateEvent = requestAnimationFrame(animate);
     return () => {
-      document.removeEventListener("mousemove", mouseEventsListener);
+      document.removeEventListener("mousemove", getMousePosition);
       cancelAnimationFrame(animateEvent);
     };
   }, []);
 
   useEffect(() => {
-    const mouseEventListener = document.addEventListener(
-      "mouseover",
-      function (e) {
-        if (
-          e.target.tagName.toLowerCase() === "button" ||
-          // check parent is button
-          e.target.parentElement.tagName.toLowerCase() === "button" ||
-          // check is input or textarea
-          e.target.tagName.toLowerCase() === "input" ||
-          e.target.tagName.toLowerCase() === "textarea"
-        ) {
-          setHoverButton(true);
-        } else {
-          setHoverButton(false);
-        }
+    function getMouseOver(e: MouseEvent) {
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLButtonElement ||
+        e.target instanceof HTMLTextAreaElement ||
+        e.target instanceof HTMLElement && e.target.parentElement instanceof HTMLButtonElement
+      ) {
+        setHoverButton(true);
+      } else {
+        setHoverButton(false);
       }
-    );
+    }
+    document.addEventListener( "mouseover", getMouseOver );
     return () => {
-      document.removeEventListener("mouseover", mouseEventListener);
+      document.removeEventListener("mouseover", getMouseOver);
     };
   }, []);
 
@@ -71,7 +66,7 @@ export const Cursor = () => {
             : "bg-indigo-500 w-3 h-3"
         }`}
         ref={cursorOutline}
-      ></div>
+      />
     </>
   );
 };

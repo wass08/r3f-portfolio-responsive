@@ -1,8 +1,7 @@
 import { useProgress } from "@react-three/drei";
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
-export const LoadingScreen = (props) => {
-  const { started, setStarted } = props;
+export const LoadingScreen = ({ started, setStarted }: { started: boolean, setStarted: Dispatch<SetStateAction<boolean>> }) => {
   const { progress, total, loaded, item } = useProgress();
 
   useEffect(() => {
@@ -20,9 +19,9 @@ export const LoadingScreen = (props) => {
   flex items-center justify-center bg-indigo-50 
   ${started ? "opacity-0" : "opacity-100"}`}
     >
-      <div className="text-4xl md:text-9xl font-bold text-indigo-900 relative">
+      <div className="relative text-4xl font-bold text-indigo-900 md:text-9xl">
         <div
-          className="absolute left-0 top-0  overflow-hidden truncate text-clip transition-all duration-500"
+          className="absolute top-0 left-0 overflow-hidden truncate transition-all duration-500 text-clip"
           style={{
             width: `${progress}%`,
           }}

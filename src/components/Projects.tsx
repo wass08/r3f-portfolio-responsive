@@ -5,8 +5,16 @@ import { animate, useMotionValue } from "framer-motion";
 import { motion } from "framer-motion-3d";
 import { atom, useAtom } from "jotai";
 import { useEffect, useRef } from "react";
+import { BufferGeometry, Material, Mesh } from "three";
 
-export const projects = [
+type Project = {
+  title: string;
+  url: string;
+  image: string;
+  description: string;
+};
+
+export const projects: Project[] = [
   {
     title: "Wawatmos",
     url: "https://r3f-wawatmos-final.vercel.app/",
@@ -39,10 +47,10 @@ export const projects = [
   },
 ];
 
-const Project = (props) => {
+const Project = (props: { project: Project, highlighted: boolean }) => {
   const { project, highlighted } = props;
 
-  const background = useRef();
+  const background = useRef<Mesh<BufferGeometry, Material>>(null);
   const bgOpacity = useMotionValue(0.4);
 
   useEffect(() => {
@@ -50,7 +58,7 @@ const Project = (props) => {
   }, [highlighted]);
 
   useFrame(() => {
-    background.current.material.opacity = bgOpacity.get();
+    background.current!.material.opacity = bgOpacity.get();
   });
 
   return (
@@ -64,7 +72,7 @@ const Project = (props) => {
         <meshBasicMaterial color="black" transparent opacity={0.4} />
       </mesh>
       <Image
-        scale={[2, 1.2, 1]}
+        scale={[2, 1.2]}
         url={project.image}
         toneMapped={false}
         position-y={0.3}

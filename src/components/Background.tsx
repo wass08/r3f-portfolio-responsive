@@ -3,17 +3,20 @@ import { useFrame } from "@react-three/fiber";
 import { gsap } from "gsap";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+
 export const Background = () => {
-  const material = useRef();
+  const material = useRef<THREE.MeshBasicMaterial>(null);
   const color = useRef({
     color: "#b9bcff",
   });
   const data = useScroll();
 
-  const tl = useRef();
+  const tl = useRef<GSAPTimeline>();
 
   useFrame(() => {
-    tl.current.progress(data.scroll.current);
+    tl.current?.progress(data.offset);
+
+    if (!material.current) return
     material.current.color = new THREE.Color(color.current.color);
   });
 
