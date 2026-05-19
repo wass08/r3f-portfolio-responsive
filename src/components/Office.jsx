@@ -11,10 +11,16 @@ import React, { useEffect } from "react";
 import * as THREE from "three";
 
 export function Office(props) {
-  const { section } = props;
+  const { section, setSection } = props;
   const { nodes, materials } = useGLTF("models/scene.gltf");
   const texture = useTexture("textures/baked.jpg");
   const textureVSCode = useVideoTexture("textures/vscode.mp4");
+
+  const [hovered, setHovered] = React.useState(false);
+
+  useEffect(() => {
+    document.body.style.cursor = hovered ? "pointer" : "auto";
+  }, [hovered]);
 
   texture.flipY = false;
   texture.encoding = THREE.sRGBEncoding;
@@ -49,12 +55,13 @@ export function Office(props) {
   });
 
   return (
-    <group {...props} dispose={null}>
+    <group {...props} dispose={null} frustumCulled={false}>
       <mesh
         name="Screen"
         geometry={nodes.Screen.geometry}
         position={[0.45, 0.94, -1.72]}
         rotation={[Math.PI, -1.1, Math.PI]}
+        frustumCulled={false}
       >
         <meshBasicMaterial map={textureVSCode} toneMapped={false} />
       </mesh>
@@ -89,7 +96,13 @@ export function Office(props) {
           material={textureMaterial}
         />
       </group>
-      <group name="SM_ShelfSM_Shelf1" position={[-0.87, 1.69, -2.04]}>
+      <group
+        name="SM_ShelfSM_Shelf1"
+        position={[-0.87, 1.69, -2.04]}
+        onClick={() => setSection(9)}
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
+      >
         <mesh
           name="SM_ShelfSM_Shelf1_1"
           geometry={nodes.SM_ShelfSM_Shelf1_1.geometry}
@@ -210,6 +223,9 @@ export function Office(props) {
         name="iMac"
         position={[0.45, 0.94, -1.72]}
         rotation={[Math.PI, -1.1, Math.PI]}
+        onClick={() => setSection(2)}
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
       >
         <mesh
           name="iMac_1_1"
@@ -331,6 +347,9 @@ export function Office(props) {
         name="Plane001_1"
         geometry={nodes.Plane001_1.geometry}
         material={textureMaterial}
+        onClick={() => setSection(4)}
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
       />
       <mesh
         name="Plane001_2"

@@ -2,12 +2,47 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wawa Sensei Portfolio</title>
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#6366f1" />
+    <meta name="author" content="Arhan Ansari"/>
+    <meta property="og:title" content="Arhan Ansari - Full Stack Developer & 3D Artist">
+    <meta property="og:description" content="Innovative Full Stack Developer specializing in 3D web experiences, modern web applications, and creative digital solutions. Crafting the future of web development.">
+    <meta property="og:image" content="/logo.png">
+    <meta property="og:url" content="https://arhanansari.vercel.app">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Arhan Ansari - Full Stack Developer & 3D Artist">
+    <meta name="twitter:description" content="Innovative Full Stack Developer specializing in 3D web experiences, modern web applications, and creative digital solutions.">
+    <meta name="twitter:image" content="/logo.png">
+    <title>Arhan Ansari - Full Stack Developer & 3D Artist</title>
+    <meta name="description" content="Innovative Full Stack Developer specializing in 3D web experiences, modern web applications, and creative digital solutions. Crafting the future of web development.">
+    <meta name="keywords" content="Arhan Ansari, Full Stack Developer, React Native Developer, Three.js Developer, 3D Web Development, JavaScript, Portfolio, Web Developer, MERN Stack, AI Developer, SaaS Developer, React Developer, Next.js Developer, Mobile App Developer, Indie Developer, Student Developer India">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Preload 3D assets for better performance -->
+    <link rel="preload" href="/models/646d9dcdc8a5f5bddbfac913.glb" as="fetch" crossorigin="anonymous">
   </head>
   <body>
     <div id="root"></div>
+    <!-- Calendly badge widget begin -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <!-- left align the badge widget -->
+    <style type="text/css"> 
+      .calendly-badge-widget { 
+        right: auto !important; 
+        left: 10px !important; 
+      } 
+    </style> 
+    <!-- end left align the badge widget -->
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+    <script type="text/javascript">window.onload = function() { Calendly.initBadgeWidget({ url: 'https://calendly.com/arhanansari2009', text: 'Schedule time with me', color: '#0069ff', textColor: '#ffffff', branding: true }); }</script>
+    <!-- Calendly badge widget end -->
+    <script src="https://www.google.com/recaptcha/api.js?render=6Lfy8sIqAAAAAFVnXazuuDipaoU7pYkCuq0tCdqg"></script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

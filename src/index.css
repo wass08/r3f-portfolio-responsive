@@ -2,11 +2,625 @@
 @tailwind components;
 @tailwind utilities;
 
-#root {
-  width: 100vw;
-  height: 100vh;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    width: 100%;
+    height: 100%;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="%23000" d="M2 2l10 14.5L14 8l6-6H2z"/></svg>') 0 0, auto;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', system-ui, sans-serif;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    color: #f8fafc;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    min-height: 100vh;
+    transition: background 0.3s ease, color 0.3s ease;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="%23fff" stroke="%23000" stroke-width="1" d="M2 2l10 14.5L14 8l6-6H2z"/></svg>') 0 0, auto;
+  }
+
+  html.light body {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+    color: #0f172a;
+  }
+
+  /* Force light mode text visibility for common light-text classes */
+  html.light .text-neutral-50,
+  html.light .text-neutral-100,
+  html.light .text-neutral-200 {
+    color: #0f172a !important;
+  }
+  
+  html.light .text-neutral-300,
+  html.light .text-neutral-400 {
+    color: #334155 !important;
+  }
+
+  html.light .text-slate-200 {
+    color: #1e293b !important;
+  }
+
+  * {
+    box-sizing: border-box;
+    cursor: inherit;
+  }
+
+  /* Button and interactive element cursor */
+  button, a, [role="button"], input[type="button"], input[type="submit"] {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="4" fill="%23000"/><path fill="%23fff" stroke="%23000" stroke-width="1" d="M2 2l10 14.5L14 8l6-6H2z"/></svg>') 0 0, pointer;
+  }
 }
 
-body {
-  margin: 0;
+@layer components {
+  .glass-morphism {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  html.light .glass-morphism {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .glass-morphism-dark {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  html.light .glass-morphism-dark {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .text-gradient {
+    background: linear-gradient(to right, #38bdf8, #e879f9, #0284c7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    background-size: 200% auto;
+    animation: gradient-x 3s ease infinite;
+  }
+  
+  .btn-primary {
+    color: white;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    transform-origin: center;
+    background: linear-gradient(to right, #0ea5e9, #0284c7);
+    border: none;
+    cursor: pointer;
+  }
+  
+  .btn-primary:hover {
+    background: linear-gradient(to right, #0284c7, #0369a1);
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.3);
+    transform: scale(1.05);
+  }
+  
+  .btn-primary:active {
+    transform: scale(0.95);
+  }
+  
+  .btn-secondary {
+    color: white;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 12px;
+    border: 1px solid #475569;
+    transition: all 0.3s ease;
+    transform-origin: center;
+    background: linear-gradient(to right, #1e293b, #0f172a);
+    cursor: pointer;
+  }
+  
+  .btn-secondary:hover {
+    background: linear-gradient(to right, #334155, #1e293b);
+    transform: scale(1.05);
+  }
+  
+  .btn-secondary:active {
+    transform: scale(0.95);
+  }
+  
+  .card-modern {
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(51, 65, 85, 0.3);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-origin: center;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.6), rgba(30, 41, 59, 0.4));
+  }
+
+  html.light .card-modern {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.7));
+    border: 1px solid rgba(203, 213, 225, 0.5);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+  }
+  
+  .card-modern:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transform: scale(1.02);
+  }
+  
+  .section-padding {
+    padding: 80px 16px;
+  }
+  
+  @media (min-width: 640px) {
+    .section-padding {
+      padding: 80px 24px;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .section-padding {
+      padding: 100px 32px;
+    }
+  }
+  
+  @media (min-width: 1400px) {
+    .section-padding {
+      padding: 100px 32px;
+    }
+  }
+  
+  .container-max {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  overflow: visible;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+html.light ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #0ea5e9, #d946ef);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #0284c7, #c026d3);
+}
+
+/* Selection styles */
+::selection {
+  background: rgba(14, 165, 233, 0.3);
+  color: #f8fafc;
+}
+
+/* Smooth transitions for all interactive elements */
+button, a, input, textarea {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Custom focus styles */
+button:focus,
+a:focus,
+input:focus,
+textarea:focus {
+  outline: 2px solid #0ea5e9;
+  outline-offset: 2px;
+}
+
+/* INTENTIONAL SPACING SYSTEM - Non-uniform for human feel */
+.spacing-generous {
+  gap: 3rem;
+}
+
+.spacing-medium {
+  gap: 2rem;
+}
+
+.spacing-tight {
+  gap: 1rem;
+}
+
+/* Section variations - different rhythms */
+.section-featured {
+  padding: 120px 16px;
+}
+
+@media (min-width: 768px) {
+  .section-featured {
+    padding: 160px 32px;
+  }
+}
+
+.section-compact {
+  padding: 60px 16px;
+}
+
+@media (min-width: 768px) {
+  .section-compact {
+    padding: 80px 32px;
+  }
+}
+
+/* Typography refinements - better hierarchy */
+.headline-xl {
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 768px) {
+  .headline-xl {
+    font-size: 2rem;
+  }
+}
+
+.headline-lg {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+  .headline-lg {
+    font-size: 1.75rem;
+  }
+}
+
+.body-balanced {
+  max-width: 65ch;
+  line-height: 1.75;
+}
+
+/* Loading animation */
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.loading-shimmer {
+  animation: shimmer 1.2s ease-in-out infinite;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 37%, #f0f0f0 63%);
+  background-size: 800px 104px;
+}
+
+/* Particle effect container */
+.particles-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Enhanced background patterns */
+.hero-pattern {
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(14, 165, 233, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(217, 70, 239, 0.1) 0%, transparent 50%),
+    linear-gradient(135deg, transparent 40%, rgba(14, 165, 233, 0.05) 50%, transparent 60%);
+}
+
+/* Interface positioning fixes */
+.interface-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  background: transparent;
+}
+
+/* Floating elements */
+.floating {
+  animation: float 6s ease-in-out infinite;
+}
+
+.floating:nth-child(2) {
+  animation-delay: -2s;
+}
+
+.floating:nth-child(3) {
+  animation-delay: -4s;
+}
+
+/* Responsive font sizes */
+.text-responsive-xl {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+}
+
+.text-responsive-lg {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.text-responsive-base {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+}
+
+/* Mobile adjustments for 3D character overlap */
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 60px 16px !important;
+  }
+  
+  .interface-content {
+    background: transparent;
+  }
+}
+
+
+
+.content-overlay {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+  width: 100%;
+}
+
+/* Menu positioning fixes */
+.menu-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 50;
+  pointer-events: auto;
+}
+
+  .btn-gradient-primary {
+    background: linear-gradient(135deg, #0ea5e9, #8b5cf6);
+  }
+
+  .btn-gradient-primary:hover {
+    background: linear-gradient(135deg, #0284c7, #7c3aed);
+  }
+
+/* Featured project card hover glow */
+.featured-card-glow:hover {
+  box-shadow: 0 25px 50px rgba(14, 165, 233, 0.2), 0 0 0 1px rgba(14, 165, 233, 0.3);
+}
+
+/* Shine effect for buttons */
+@keyframes shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Animated gradient border for stat cards */
+@keyframes border-pulse {
+  0%, 100% { border-color: rgba(14, 165, 233, 0.2); }
+  50% { border-color: rgba(14, 165, 233, 0.5); }
+}
+
+.stat-card-animated {
+  animation: border-pulse 3s ease-in-out infinite;
+}
+
+/* Cursor positioning */
+.cursor-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   MICRO-INTERACTIONS
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Hide native cursor on pointer-capable (desktop) devices ──────────────── */
+@media (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
+}
+
+/* ── Shine sweep on button hover ──────────────────────────────────────────── */
+@keyframes shine-sweep {
+  0%   { transform: translateX(-130%) skewX(-18deg); }
+  100% { transform: translateX(230%)  skewX(-18deg); }
+}
+
+button,
+[role="button"],
+.btn-primary,
+.btn-secondary {
+  position: relative;
+  overflow: hidden;
+}
+
+button::after,
+[role="button"]::after,
+.btn-primary::after,
+.btn-secondary::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  transform: translateX(-130%) skewX(-18deg);
+  pointer-events: none;
+}
+
+button:hover::after,
+[role="button"]:hover::after,
+.btn-primary:hover::after,
+.btn-secondary:hover::after {
+  animation: shine-sweep 0.55s ease forwards;
+}
+
+/* ── Card glow border + shimmer on hover ─────────────────────────────────── */
+.card-modern {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform     0.35s cubic-bezier(0.34, 1.38, 0.64, 1),
+    box-shadow    0.35s ease,
+    border-color  0.25s ease;
+}
+
+.card-modern:hover {
+  box-shadow:
+    0 0 0 1px rgba(56, 189, 248, 0.25),
+    0 20px 40px rgba(0,0,0,0.25),
+    0  0  40px rgba(56, 189, 248, 0.06);
+}
+
+/* Shimmer diagonal sweep across card on hover */
+.card-modern::after {
+  content: "";
+  position: absolute;
+  top: -50%; left: -60%;
+  width: 30%; height: 200%;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255,255,255,0.055) 50%,
+    transparent 60%
+  );
+  transform: skewX(-10deg) translateX(0);
+  pointer-events: none;
+  transition: none;
+  opacity: 0;
+}
+
+.card-modern:hover::after {
+  opacity: 1;
+  transform: skewX(-10deg) translateX(450%);
+  transition: transform 0.7s ease, opacity 0.1s ease;
+}
+
+/* ── Input / Textarea focus burst ────────────────────────────────────────── */
+input,
+textarea {
+  transition:
+    box-shadow   0.25s ease,
+    border-color 0.25s ease,
+    transform    0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+input:focus,
+textarea:focus {
+  box-shadow:
+    0 0 0 2px rgba(14,165,233,0.20),
+    0 0 18px rgba(14,165,233,0.12) !important;
+  transform: scaleY(1.012);
+}
+
+/* ── Underline grow for plain anchor links ───────────────────────────────── */
+a.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+a.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -1px;
+  width: 100%; height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.28s cubic-bezier(0.65, 0, 0.35, 1);
+}
+a.link-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ── Tag / badge pop on hover ────────────────────────────────────────────── */
+.tag-hover {
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease;
+}
+.tag-hover:hover {
+  transform: scale(1.1) translateY(-1px);
+}
+
+/* ── Hover lift utility (cards, items, pills) ────────────────────────────── */
+.hover-lift {
+  transition:
+    transform  0.22s cubic-bezier(0.34, 1.38, 0.64, 1),
+    box-shadow 0.22s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.22);
+}
+
+/* ── Pulse aura that breathes on hovered buttons ─────────────────────────── */
+@keyframes aura-breathe {
+  0%,100% { box-shadow: 0 0  0   0  rgba(14,165,233,0.30); }
+  50%      { box-shadow: 0 0  0  10px rgba(14,165,233,0.00); }
+}
+.btn-aura:hover {
+  animation: aura-breathe 1.1s ease-out infinite;
+}
+
+/* ── Magnetic icon spin on parent hover ──────────────────────────────────── */
+.icon-spin-hover:hover svg,
+.icon-spin-hover:hover .icon {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: rotate(12deg) scale(1.15);
+}
+
+/* ── Smooth focus ring for keyboard nav ──────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid rgba(14,165,233,0.8);
+  outline-offset: 3px;
+  border-radius: 4px;
+  transition: outline-offset 0.15s ease;
+}
+
+/* ── Selection highlight ─────────────────────────────────────────────────── */
+::selection {
+  background: rgba(167,139,250,0.35);
+  color: #f8fafc;
+}
+
